@@ -31,13 +31,31 @@ const userController = {
       res.json({ code: 0, message: "操作失败", data: e });
     }
   },
+  // sendBlessing 发送祝福
   sendBlessing: async function (req, res, next) {
     try {
       if (!req.body.blessing) {
         return res.json({ code: 201, message: "缺少参数" });
       }
-      req.body.login_date = timestampToTime();
+      req.body.update_time = timestampToTime();
       await User.insert(req.body);
+      res.json({
+        code: 200,
+        message: "操作成功",
+        data: [],
+      });
+    } catch (e) {
+      res.json({ code: 0, message: "操作失败", data: e });
+    }
+  },
+  // delSingleUserInfo 删除某个用户信息
+  delSingleUserInfo: async function (req, res, next) {
+    try {
+      if (!req.body.name) {
+        return res.json({ code: 201, message: "缺少参数" });
+      }
+      console.log(req.body.name)
+      await User.delete(req.body.name);
       res.json({
         code: 200,
         message: "操作成功",
